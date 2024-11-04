@@ -1,0 +1,3 @@
+Ceci est un fichier de test.
+Il contient quelques lignes de texte.
+Nous l'utilisons pour tester notre fonction traiter_donnees_fichier.
