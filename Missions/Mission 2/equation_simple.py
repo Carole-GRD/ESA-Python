@@ -1,5 +1,7 @@
 # Recherche des racines d'une équation a x + b y = c
 # Charles Pecheur, septembre 2018
+from sympy.codegen.cfunctions import expm1
+
 
 # solutions = 0
 # a = int(input("Entrez la valeur du coefficient a : "))
@@ -22,7 +24,6 @@
 # ======================================================
 
 
-
 def find_linear_solutions(a, b, c, max_v):
 
     solutions = []
@@ -31,7 +32,6 @@ def find_linear_solutions(a, b, c, max_v):
             if a * x + b * y == c:
                 solutions.append((x, y))
                 print("x = ", x, " y = ", y) # Impression d'une solution trouvée
-
 
     # Affichage du résultat final
     if solutions:
@@ -42,40 +42,6 @@ def find_linear_solutions(a, b, c, max_v):
     return solutions, len(solutions)
 
 
-
-# if __name__ == '__main__':
-#
-#     try:
-#         def validate_input(value):
-#             if value.isdigit() or (value[0] == '-' and value[1:].isdigit()):
-#                 data = int(value)
-#                 return data
-#             if type(value).__name__ == 'str':
-#                 raise ValueError("La valeur doit être un entier.")
-#
-#         a_var = validate_input(input("Entrez la valeur du coefficient a : "))
-#         b_var = validate_input(input("Entrez la valeur du coefficient b : "))
-#         c_var = validate_input(input("Entrez la valeur du coefficient c : "))
-#         max_val = validate_input(input("Entrez la valeur maximale pour x et y : "))
-#
-#         if int(max_val) <= 0:
-#             raise ValueError("La valeur maximale doit être un entier positif (non nul).")
-#
-#         result = find_linear_solutions(a_var, b_var, c_var, max_val)
-#
-#         print(f"""\
-#
-#         ------------------------------------
-#         result = {result}
-#         ------------------------------------
-#         """)
-#
-#     except ValueError as e:
-#         print(f"Erreur : {e}")
-
-
-
-
 def get_integer_input(prompt, allow_negative=False):
     """
     Fonction pour obtenir une entrée entière de l'utilisateur.
@@ -83,21 +49,36 @@ def get_integer_input(prompt, allow_negative=False):
     :param allow_negative: Si True, permet les nombres négatifs.
     :return: Valeur entière saisie par l'utilisateur.
     """
-    while True:
-        value = input(prompt)  # Demande à l'utilisateur de saisir une valeur.
 
-        # Vérifie si la valeur est un entier valide
-        if ((allow_negative and (value.isdigit() or (value[0] == '-' and value[1:].isdigit())))
-                # -> vérifie si la valeur est un entier positif
-                # ou un entier négatif (commence par '-' suivi de chiffres)
-                or (not allow_negative and value.isdigit() and value != '0')):
-                # -> vérifie si la valeur est un entier positif
-                # (doit contenir uniquement des chiffres et ne pas être égal à '0')
-            return int(value)  # Convertit la valeur en entier et la retourne.
-        else:
-            print("La valeur doit être un nombre entier." + (  # Affiche un message d'erreur.
-                " (non nul)" if not allow_negative else ""))
-            # -> Si les nombres négatifs ne sont pas autorisés, précise que la valeur doit être non nulle.
+    while True:
+        value = input(prompt)
+
+        try:
+            is_decimal = value.lstrip("-").replace(".", "", 1).isdigit() and "." in value
+
+            if is_decimal:
+                if not allow_negative and value.startswith("-"):
+                    raise ValueError("Vous avez entré un nombre DECIMAL NEGATIF. "
+                                     "Veuillez entrer un nombre ENTIER POSITIF.")
+                else:
+                    raise ValueError("Vous avez entré un nombre DECIMAL. "
+                                     "Veuillez entrer un nombre ENTIER.")
+            
+            # Vérifie si l'entrée est non numérique
+            if not value.lstrip("-").isdigit():
+                raise ValueError("Vous avez entré des lettres ou des caractères non numériques. "
+                                 "Veuillez entrer un nombre entier.")
+
+            value = int(value)  # Convertit en entier après validation
+
+            # Vérifie les conditions de validité
+            if value <= 0 and not allow_negative:
+                raise ValueError("La valeur doit être un nombre entier POSITIF non nul.")
+
+            return value  # Retourne la valeur valide
+
+        except ValueError as e:
+            print("Erreur:\n", str(e))
 
 
 if __name__ == '__main__':

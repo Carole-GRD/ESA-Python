@@ -30,9 +30,27 @@
 # print(f"id(rgb) : {id(rgb)}")
 # print(f"id(rgba) : {id(rgba)}")
 # print(id(rgb) == id(rgba))  # they reference the same object  -> True
+#
+# rgba.append("Alpha")
+# # ATTENTION :
+# # Si on ajoute "Alpha" uniquement à "rgba",
+# # il sera également ajouter à "rgb" car ce sont des références vers le même objet
+# # Si on ne veut l'ajouter qu'à "rgba", il faut alors faire une copie superficielle (voir ci-dessous)
+#
+# print(f"rgb : {rgb}")     # ["Red", "Green", "Blue", "Alpha"]
+# print(f"rgba : {rgba}")     # ["Red", "Green", "Blue", "Alpha"]
 
-# rgba.append("Alph")
-# print(f"rgb : {rgb}")     # ["Red", "Green", "Blue", "Alph"]
+
+# ----------------
+
+
+# rgb = ["Red", "Green", "Blue"]
+# rgba = rgb[:]                 # crée une copie superficielle du tableau rgb
+#
+# rgba.append("Alpha")          # ajoute uniquement à la copie superficielle
+#
+# print(f"rgb : {rgb}")  # la copie est modifiée
+# print(f"rgba : {rgba}")  # la copie est modifiée
 
 
 # ==================================================
@@ -92,7 +110,6 @@
 # while a < 10:
 #     print(a)
 #     a, b = b, a+b
-
 
 
 # a, b = 0, 1
