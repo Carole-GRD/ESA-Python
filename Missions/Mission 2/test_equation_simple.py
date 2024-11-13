@@ -1,4 +1,9 @@
 
+# TODO
+# ATTENTION : Modification du fichier equation_simple.py !!!
+#             -> adapter les tests !!!
+
+
 import unittest
 
 from equation_simple import find_linear_solutions

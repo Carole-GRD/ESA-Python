@@ -1,6 +1,5 @@
 # Recherche des racines d'une équation a x + b y = c
 # Charles Pecheur, septembre 2018
-from sympy.codegen.cfunctions import expm1
 
 
 # solutions = 0

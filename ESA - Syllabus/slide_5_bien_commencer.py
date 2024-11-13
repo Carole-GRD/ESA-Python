@@ -105,7 +105,7 @@ print("mais il y a des limites pratiques basées sur la mémoire disponible.")
 # ------------
 # NUMBER (XOR)
 # ------------
-# explication voir ESA-Syllabus/slide_7_algebre_de_bool.py
+# explication voir ESA-Syllabus/algebre_de_bool.py
 # a = 2
 # b = 5
 # print('a = ', a, ' b = ',b)

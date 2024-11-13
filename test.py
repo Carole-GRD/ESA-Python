@@ -70,60 +70,6 @@
 # ================================================================================
 
 
-# TESTS ENCODING
-
-# # initializing string
-# String = "geeksforgeeks"
-#
-# encoded_string = String.encode('utf-8')
-# print('The encoded string in base64 format is :')
-# print(encoded_string)
-#
-# decoded_string = encoded_string.decode('utf-8')
-# print('The decoded string is :')
-# print(decoded_string)
-
-
-# # initializing string
-# string = "é - @ - # 52 - §"
-#
-# print(string)
-#
-# encoded_string = string.encode('utf-8')
-# print('The encoded string in base64 format is :')
-# print(encoded_string)
-#
-# decoded_string = encoded_string.decode('utf-8')
-# print('The decoded string is :')
-# print(decoded_string)
-
-
-# txt = "My name is Ståle"
-#
-# print(txt)
-# print(txt.encode("UTF-8"))
-# print(txt.encode("UTF-8").decode("UTF-8"))
-
-
-# str="Hello! Welcome to Tutorialspoint."
-# str_encoded = str.encode('utf_16','strict')
-# print("The encoded string is: ", str_encoded)
-# str_decoded = str_encoded.decode('utf_16', 'strict')
-# print("The decoded string is: ", str_decoded)
-
-
-# string = "Café"
-#
-# encoded_bytes = string.encode('utf-8')
-# print(encoded_bytes)  # Affiche : b'Caf\xc3\xa9'
-#
-# decoded_string = encoded_bytes.decode('utf-8')
-# print(decoded_string)  # Affiche : Café
-
-
-# ================================================================================
-
-
 # print(1, end='\t')
 # print(2)              # 1	2   (1 et 2 sur la même ligne, espacés d'une tabulation
 #
@@ -149,73 +95,6 @@ def toto(a, b, c):
 # help(toto)
 # print(toto.__name__)
 # print(toto.__doc__)
-
-
-# ================================================================================
-
-
-"""
-    Point d'arrêt pour déboguer
-
-        ->  Utilisation du point-virgule : 
-            Le point-virgule est nécessaire ici car nous plaçons deux instructions sur la même ligne, 
-            ce qui est courant lors de l'utilisation de pdb pour insérer un point d'arrêt.
-            
-        ->  Placement du point d'arrêt : 
-            On place l'arrêt en une seule ligne au-dessus de l'instruction ou de la variable 
-            dont on veut connaître la valeur.
-"""
-
-# aaa = 5
-# bbb = 10
-#
-# # Arrête le code ici, permet d'inspecter les variables avant d'exécuter les lignes suivantes.
-# # ATTENTION : Après le débogage, n'oubliez pas de supprimer cette ligne pour éviter un arrêt involontaire.
-# import pdb; pdb.set_trace()
-#
-# ccc = aaa + bbb
-# print(ccc)
-
-
-# ------AUTRE EXEMPLE -----
-
-
-# def add(a, b):
-#     somme = a + b
-#     return somme
-#
-# x = 10
-# y = '20'  # Erreur : addition d'un int et d'un str
-#
-# import pdb; pdb.set_trace()  # Point d'arrêt pour examiner `x` et `y`
-#
-# result = add(x, y)  # Cela va provoquer une erreur
-# print(result)
-
-"""
-    Comment fonctionne pdb.set_trace() ?
-
-        ->  pdb.set_trace() démarre le débogueur Python 
-            et arrête l'exécution du code à l'endroit où il est inséré. 
-            
-        ->  Cela te permet de voir les valeurs des variables 
-            et d'exécuter le code ligne par ligne à partir de cet endroit.
-    
-    
-    Commandes de base dans pdb :
-    
-        ->  n (next) : Exécute la ligne actuelle et passe à la suivante.
-        ->  c (continue) : Continue l'exécution jusqu'à la fin ou jusqu'au prochain point d'arrêt.
-        ->  s (step) : Entre dans une fonction si la ligne actuelle en appelle une.
-        ->  Tu peux également taper directement le nom d'une variable (par exemple ccc) pour obtenir sa valeur.
-        ->  p <nom_de_variable> (print) : Affiche la valeur d'une variable spécifique.
-        ->  q (quit) : Quitte le débogueur.
-
-    ATTENTION : 
-        
-        Après avoir fini le débogage, il est important de supprimer ou de commenter la ligne 
-        contenant pdb.set_trace() pour éviter que le programme ne s'arrête lors de son exécution normale.
-"""
 
 
 # ================================================================================
@@ -258,6 +137,3 @@ def toto(a, b, c):
     
     ->  Dans la liste déroulante Severity, choisissez Warning.
 """
-
-
-

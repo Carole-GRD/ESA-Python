@@ -97,7 +97,7 @@ import numpy as np
 
 
 print("===========================================")
-# Matrice des cofacteurs fournie
+# Matrix des cofacteurs fournie
 cofactors_matrix = np.array([
     [-18, 26, 14, 16],
     [39, 5, 8, 19],
