@@ -39,9 +39,9 @@
 #         continue
 #
 #     for character in my_password:
-#         if character.isalpha() and character.islower():
+#         if character.islower():
 #             has_lower = True
-#         if character.isalpha() and character.isupper():
+#         if character.isupper():
 #             has_upper = True
 #         if character.isdigit():
 #             has_digit = True
@@ -70,19 +70,20 @@
 # =========================================================================
 
 while True:
-    # Réinitialisation des drapeaux
     has_lower = False
     has_upper = False
     has_digit = False
 
     my_password = input("Mot de passe : ")
 
-    # Vérifie la longueur du mot de passe
-    if len(my_password) < 10:
-        print("Invalide : au moins 10 caractères !")
-        continue  # Recommence la boucle
+    # Liste pour stocker les erreurs
+    errors = []
 
-    # Parcours des caractères
+    # Vérifie la longueur
+    if len(my_password) < 10:
+        errors.append("10 caractères")
+
+    # Vérifie les autres critères
     for character in my_password:
         if character.islower():
             has_lower = True
@@ -91,23 +92,50 @@ while True:
         elif character.isdigit():
             has_digit = True
 
-        # Si tous les critères sont remplis, on peut sortir de la boucle for
+        # Sortir dès que tous les critères sauf la longueur sont remplis
         if has_lower and has_upper and has_digit:
             break
 
-    # Vérification finale et messages
-    if has_lower and has_upper and has_digit:
+    # Ajout des erreurs restantes
+    if not has_lower:
+        errors.append("1 minuscule")
+    if not has_upper:
+        errors.append("1 majuscule")
+    if not has_digit:
+        errors.append("1 chiffre")
+
+    # Affichage du message final
+    if not errors:
         print("OK : mot de passe valide")
-        break  # Sortie de la boucle while
+        break
     else:
-        # Construction du message d'erreur
-        errors = []
-        if not has_lower:
-            errors.append("1 minuscule")
-        if not has_upper:
-            errors.append("1 majuscule")
-        if not has_digit:
-            errors.append("1 chiffre")
         print(f"Invalide : doit contenir au minimum {', '.join(errors)} !")
 
 
+# =========================================================================
+# =========================================================================
+# =========================================================================
+
+# mpd = input("Entre un mot de passe avec 10 caracteres, min un chiffre, min une majuscule et une minuscule : ")
+#
+# if len(mpd) < 10:
+#     exit(" Erreur: le mot de passe doit contenir 10 caracteres")
+# maj = 0
+# min = 0
+# nbr = 0
+# for i in mpd:
+#     if i.isupper():
+#         maj += 1
+#     if i.islower():
+#         min += 1
+#     if i.isnumeric():
+#         nbr += 1
+# if maj < 1:
+#     print("erreur: il faut une majuscule")
+# if min < 1:
+#     print("erreur: il faut  minuscule")
+# if nbr < 1:
+#     print("Erreur : il faut un chiffre")
+#
+# elif maj > 0 and min > 0 and nbr > 0:
+#     print("le code est correct")
