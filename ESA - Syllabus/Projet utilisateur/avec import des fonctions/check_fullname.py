@@ -1,3 +1,11 @@
+"""
+Module de validation du nom et du prénom saisi par l'utilisateur.
+
+Ce module contient une fonction permettant de vérifier que le nom et le prénom ne sont pas identiques,
+et que les caractères sont valides.
+"""
+
+
 def check_lastname_firstname():
     """
     Vérifie la validité du nom et du prénom fournis par l'utilisateur.
@@ -11,12 +19,13 @@ def check_lastname_firstname():
         → Un message d'erreur si l'une des conditions n'est pas respectée.
     """
 
-    lastname = input("Nom : ").strip()
-    firstname = input("Prenom : ").strip()
+    # Saisie du nom et du prénom, avec nettoyage des espaces
+    lastname_input = input("Nom : ").strip()
+    firstname_input = input("Prénom : ").strip()
 
-    # Vérifier que les champs ne sont pas vides
-    if not lastname or not firstname:
-        return "ERREUR : Le nom et le prénom ne peuvent pas être vides."
+    # Capitalisation du nom et du prénom
+    lastname = ' '.join([part.capitalize() for part in lastname_input.split(' ')])
+    firstname = '-'.join([part.capitalize() for part in firstname_input.split('-')])
 
     # Vérifier que nom et prénom sont différents
     if lastname.lower() == firstname.lower():

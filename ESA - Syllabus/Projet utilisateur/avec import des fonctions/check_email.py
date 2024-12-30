@@ -1,3 +1,10 @@
+"""
+Module de validation de l'adresse email saisie par l'utilisateur.
+
+Ce module contient une fonction permettant de vérifier que l'email respecte le format xxx@xxx.xx.
+"""
+
+
 def check_email():
     """
     Vérifie si l'adresse email saisie est valide.
@@ -14,6 +21,7 @@ def check_email():
         → Un message d'erreur expliquant la règle non respectée en cas d'échec.
     """
 
+    # Saisie de l'adresse email avec nettoyage des espaces
     email = input("Email : ").strip()
 
     # Découper l'email autour du @
