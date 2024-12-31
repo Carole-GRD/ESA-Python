@@ -35,27 +35,27 @@ def save_user():
               [nom prénom, code postal, email, login, mot de passe].
     """
 
-    def data_validation(check_function, result, login_list):
+    def data_validation(check_function, result, users_list):
         """
         Valide des données saisies par l'utilisateur.
 
         Args :
             * check_function (function) : La fonction utilisée pour valider l'entrée utilisateur.
             * result (str) : Le résultat de la validation précédente.
-            * login_list (list) : Liste des logins existants pour éviter les doublons.
+            * users_list (list) : Liste des utilisateurs existants pour éviter les doublons de login.
 
         Returns :
             str : Le résultat validé ou une nouvelle tentative si l'entrée est invalide.
         """
         if result.startswith("ERREUR") or not result:
-            if login_list is None:
+            if users_list is None:
                 return check_function()
             else:
-                return check_function(login_list)
+                return check_function(users_list)
         return result
 
     users_list = []
-    login_list = []
+
     while True:
         try:
             number_of_users = int(input("Combien d'utilisateurs souhaitez-vous enregistrer : "))
@@ -86,7 +86,7 @@ def save_user():
             email_result = data_validation(email.check_email, email_result, None)
 
             # LOGIN
-            login_result = data_validation(login.check_login, login_result, login_list)
+            login_result = data_validation(login.check_login, login_result, users_list)
 
             # PASSWORD
             password_result = data_validation(pwd.check_password, password_result, None)
@@ -109,7 +109,7 @@ def save_user():
                   f"---------------------")
 
         users_list.append([fullname_result, cp_result, email_result, login_result, password_result])
-        login_list.append(login_result)
+
         print(f"\nUtilisateur enregistré : "
               f"{[fullname_result, cp_result, email_result, login_result, password_result]}\n")
 
