@@ -100,7 +100,7 @@ def check_login(login, users_list):
 
     # Vérifier si le login est déjà utilisé dans la liste des utilisateurs
     if any(user[4] == login.lower() for user in users_list):
-        return False, f'Login "{login.lower()}" est déjà pris. Choisissez un autre login.'
+        return False, f'Le login "{login.lower()}" est déjà pris. Choisissez un autre login.'
 
     # Vérifier que chaque caractère est une lettre
     for character in login:
@@ -145,7 +145,8 @@ def check_mot_de_passe(mot_de_passe):
             contient_majuscule = True
         elif char.isdigit():
             contient_chiffre = True
-        elif char in ("!", "@", "#", "$", "%", "^", "&", "*", "()", "-", "_", "=", "+", "[]", "{}", ";", "'", ":", "\"", ",", ".<>?/"):
+        elif char in ("!", "@", "#", "$", "%", "^", "&", "*", "()", "-", "_", "=", "+", "[]", "{}", ";", "'", ":", "\"",
+                      ",", ".<>?/"):
             contient_caractere_speciaux = True
 
     if (longueur_minimum and
@@ -214,20 +215,20 @@ def verifier_entree(champ, valeurs, fonction_verification, erreurs, message_erre
 
     Args :
         → champ (str) : Le nom du champ à valider.
-        → valeurs (tuple) : Les valeurs à valider (ex : (nom, prenom)).
+        → valeurs (list) : Les valeurs à valider (ex : [nom, prenom]).
         → fonction_verification (function) : La fonction de validation à utiliser.
         → erreurs (list) : Liste pour enregistrer les erreurs.
         → message_erreur (str) : Message d'erreur à afficher.
         → *args : Paramètres supplémentaires pour la fonction de validation.
 
     Returns :
-        → tuple : Les nouvelles valeurs validées.
+        → list : Les nouvelles valeurs validées.
     """
     valid, message = fonction_verification(*valeurs, *args)
     if not valid:
         erreurs.append((champ, message))
         print(f"\nErreur {champ} : {message}")
-        valeurs = tuple(input(f"Corrigez {message_erreur} : ").strip() for _ in valeurs)
+        valeurs = [input(f"Corrigez {message_erreur} : ").strip() for _ in valeurs]
     return valeurs if len(valeurs) > 1 else valeurs[0]
 
 
@@ -245,7 +246,7 @@ def enregistrer_utilisateur(utilisateurs_liste):
         → list : Les données de l'utilisateur validé (nom, prénom, code postal, email, login, mot de passe masqué).
     """
 
-    # Saisies des différentes informations, avec nettoyage des espaces et mise en minuscule pour le login
+    # Saisies des différentes informations, avec nettoyage des espaces
     nom = input("Nom : ").strip()
     prenom = input("Prénom : ").strip()
     cp = input("Code postal : ").strip()
@@ -258,22 +259,22 @@ def enregistrer_utilisateur(utilisateurs_liste):
         erreurs = []
 
         # Vérifier nom et le prénom
-        nom, prenom = verifier_entree("nom/prenom", (nom, prenom), check_nom_prenom, erreurs,
+        nom, prenom = verifier_entree("nom/prenom", [nom, prenom], check_nom_prenom, erreurs,
                                       "le nom et le prénom")
 
         # Vérifier code postal
-        cp = verifier_entree("code postal", (cp,), check_cp, erreurs, "le code postal")
+        cp = verifier_entree("code postal", [cp], check_cp, erreurs, "le code postal")
 
         # Vérifier email
-        email = verifier_entree("email", (email,), check_email, erreurs, "l'email")
+        email = verifier_entree("email", [email], check_email, erreurs, "l'email")
 
         # Vérifier login
-        login = verifier_entree("login", (login,), check_login, erreurs, "le login",
+        login = verifier_entree("login", [login], check_login, erreurs, "le login",
                                 utilisateurs_liste)
         login = login.lower()
 
         # Vérifier mot de passe
-        mot_de_passe = verifier_entree("mot de passe", (mot_de_passe,), check_mot_de_passe, erreurs,
+        mot_de_passe = verifier_entree("mot de passe", [mot_de_passe], check_mot_de_passe, erreurs,
                                        "le mot de passe")
 
         # S'il n'y a pas d'erreurs, on ajoute l'utilisateur à la liste et on sort de la boucle.
@@ -313,4 +314,4 @@ def enregistrer_des_utilisateurs(nbr_utilisateurs_a_enregister):
 
 
 # Lancer le programme
-enregistrer_des_utilisateurs(2)
+enregistrer_des_utilisateurs(3)
