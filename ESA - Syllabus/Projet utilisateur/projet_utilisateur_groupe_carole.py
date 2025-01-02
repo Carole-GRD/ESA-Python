@@ -20,7 +20,7 @@ def check_nom_prenom(nom, prenom):
         if "@" in cara or "." in cara:
             return False, "Les seuls caractères spéciaux acceptés sont le 'trait d'union'"
 
-    if not all(c.isalpha() or c == '-' for c in nom) or not all(c.isalpha() or c == '-' for c in prenom):
+    if not all(c.isalpha() or c in '- ' for c in nom) or not all(c.isalpha() or c in '- ' for c in prenom):
         return False, "Seuls les lettres A-Z, a-z et le trait d'union sont acceptés"
 
     return True, "Nom et prenom valides"
@@ -220,6 +220,17 @@ def verifier_entree(champ, valeur, fonction_verification, erreurs, message_erreu
 # =================================
 # =================================
 def enregistrer_utilisateur(utilisateurs_liste):
+    """
+    Enregistre un nouvel utilisateur en validant ses informations (saisie, validation, ajout).
+
+    Args :
+        → utilisateurs_liste (list) : La liste existante des utilisateurs,
+                                      où chaque utilisateur est une liste de données.
+
+    Returns :
+        → list : Les données de l'utilisateur validé (nom, prénom, code postal, email, login, mot de passe masqué).
+    """
+
     # Demander les informations initiales
     nom = input("Nom : ").strip()
     prenom = input("Prénom : ").strip()
@@ -239,10 +250,6 @@ def enregistrer_utilisateur(utilisateurs_liste):
             print(f"\nErreur nom/prenom : {message}")
             nom = input("Corrigez le nom : ")
             prenom = input("Corrigez le prénom : ")
-        else:
-            # Capitalisation du nom et du prénom
-            nom = ' '.join([part.capitalize() for part in nom.split(' ')])
-            prenom = '-'.join([part.capitalize() for part in prenom.split('-')])
 
         # Vérifier code postal
         cp = verifier_entree("code postal", cp, check_cp, erreurs, "le code postal")
@@ -271,7 +278,15 @@ def enregistrer_utilisateur(utilisateurs_liste):
 
 
 def enregistrer_des_utilisateurs(nbr_utilisateurs_a_enregister):
-    """Fonction pour enregistrer des utilisateurs."""
+    """
+    Enregistre plusieurs utilisateurs (saisie, validation et affichage).
+
+    Args :
+        → nbr_utilisateurs_a_enregister (int) : Le nombre d'utilisateurs à enregistrer.
+
+    Returns :
+        → None
+    """
 
     users_list = []
 
