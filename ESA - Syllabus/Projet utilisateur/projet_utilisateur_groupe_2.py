@@ -1,5 +1,3 @@
-# PROPOSITION
-
 def check_nom_prenom(nom, prenom):
     """
     Valide que le nom et le prénom sont différents et contiennent uniquement des lettres,
@@ -13,7 +11,7 @@ def check_nom_prenom(nom, prenom):
         → tuple : (bool, str) Indique si la validation est réussie et fournit un message.
     """
 
-    if nom == prenom:
+    if nom.lower() == prenom.lower():
         return False, "Veuillez entrer un nom et prénom différents"
 
     for cara in (nom, prenom):
@@ -39,10 +37,13 @@ def check_cp(cp):
     """
 
     # Vérifier que le code postal contient exactement 4 chiffres
-    if len(cp) == 4 and cp.isdigit():
-        return True, "Code postal valide."
+    if len(cp) != 4 or not cp.isdigit():
+        return False, "Le code postal doit être composé de 4 chiffres uniquement."
 
-    return False, "Le code postal doit être composé de 4 chiffres uniquement."
+    if not (1000 <= int(cp) <= 9999):
+        return False, "Le code postal doit être un nombre compris entre 1000 et 9999."
+
+    return True, "Code postal valide."
 
 
 # ===========================================================================================================
@@ -102,10 +103,9 @@ def check_login(login, users_list):
     if any(user[4] == login.lower() for user in users_list):
         return False, f'Le login "{login.lower()}" est déjà pris. Choisissez un autre login.'
 
-    # Vérifier que chaque caractère est une lettre
-    for character in login:
-        if not character.isalpha():
-            return False, f"Le caractère invalide '{character}' a été détecté dans le login."
+    # # Vérifier que chaque caractère est une lettre
+    if not all(character.isalpha() for character in login):
+        return False, f"Le login contient des caractères non valides."
 
     return True, "Login valide"
 
@@ -209,7 +209,7 @@ def tableau_des_utilisateurs(utilisateurs_liste):
 # ======================================================================
 # VALIDATION DES DONNEES GRACE AUX FONCTIONS DE VERIFICATION "check_..."
 # ======================================================================
-def verifier_entree(champ, valeurs, fonction_verification, erreurs, message_erreur, *args):
+def lancer_verification(champ, valeurs, fonction_verification, erreurs, messages_erreurs_liste, *args):
     """
     Vérifie la validité d'une ou plusieurs valeurs via une fonction de validation.
 
@@ -228,13 +228,16 @@ def verifier_entree(champ, valeurs, fonction_verification, erreurs, message_erre
     if not valid:
         erreurs.append((champ, message))
         print(f"\nErreur {champ} : {message}")
-        valeurs = [input(f"Corrigez {message_erreur} : ").strip() for _ in valeurs]
+        nouvelles_valeurs = []
+        for message_erreur in messages_erreurs_liste:
+            nouvelles_valeurs.append(input(f"Corrigez {message_erreur} : ").strip())
+        valeurs = nouvelles_valeurs
     return valeurs if len(valeurs) > 1 else valeurs[0]
 
 
 # =================================
 # =================================
-def enregistrer_utilisateur(utilisateurs_liste):
+def enregistrer_un_utilisateur(utilisateurs_liste):
     """
     Enregistre un nouvel utilisateur en validant ses informations (saisie, validation, ajout).
 
@@ -254,33 +257,33 @@ def enregistrer_utilisateur(utilisateurs_liste):
     login = input("Login : ").strip()
     mot_de_passe = input("Mot de passe : ").strip()
 
-    erreurs_trouvees = True
-    while erreurs_trouvees:
+    champs_valides = False
+    while not champs_valides:
         erreurs = []
 
         # Vérifier nom et le prénom
-        nom, prenom = verifier_entree("nom/prenom", [nom, prenom], check_nom_prenom, erreurs,
-                                      "le nom et le prénom")
+        nom, prenom = lancer_verification("nom/prenom", [nom, prenom], check_nom_prenom, erreurs,
+                                      ["le nom", "le prénom"])
 
         # Vérifier code postal
-        cp = verifier_entree("code postal", [cp], check_cp, erreurs, "le code postal")
+        cp = lancer_verification("code postal", [cp], check_cp, erreurs, ["le code postal"])
 
         # Vérifier email
-        email = verifier_entree("email", [email], check_email, erreurs, "l'email")
+        email = lancer_verification("email", [email], check_email, erreurs, ["l'email"])
 
         # Vérifier login
-        login = verifier_entree("login", [login], check_login, erreurs, "le login",
+        login = lancer_verification("login", [login], check_login, erreurs, ["le login"],
                                 utilisateurs_liste)
         login = login.lower()
 
         # Vérifier mot de passe
-        mot_de_passe = verifier_entree("mot de passe", [mot_de_passe], check_mot_de_passe, erreurs,
-                                       "le mot de passe")
+        mot_de_passe = lancer_verification("mot de passe", [mot_de_passe], check_mot_de_passe, erreurs,
+                                       ["le mot de passe"])
 
         # S'il n'y a pas d'erreurs, on ajoute l'utilisateur à la liste et on sort de la boucle.
         if not erreurs:
             utilisateurs_liste.append([nom, prenom, cp, email, login, '*' * len(mot_de_passe)])
-            erreurs_trouvees = False
+            champs_valides = True
 
     # On retourne les données de l'utilisateur.
     return [nom, prenom, cp, email, login, '*' * len(mot_de_passe)]
@@ -297,20 +300,20 @@ def enregistrer_des_utilisateurs(nbr_utilisateurs_a_enregister):
         → None
     """
 
-    users_list = []
+    utilisateurs_liste = []
 
     for i in range(nbr_utilisateurs_a_enregister):  # Permettre l'enregistrement de x utilisateurs
         print(f"\nEnregistrement de l'utilisateur {i + 1}")
 
         # Obtenir les informations initiales
-        nom, prenom, cp, email, login, mot_de_passe = enregistrer_utilisateur(users_list)
+        nom, prenom, cp, email, login, mot_de_passe = enregistrer_un_utilisateur(utilisateurs_liste)
 
         print("\nToutes les informations sont valides !")
         afficher_utilisateur(i + 1, nom, prenom, cp, email, login, mot_de_passe)
 
     # Affichage de TOUS les utilisateurs
-    affichage_des_utilisateurs(users_list)
-    tableau_des_utilisateurs(users_list)
+    affichage_des_utilisateurs(utilisateurs_liste)
+    tableau_des_utilisateurs(utilisateurs_liste)
 
 
 # Lancer le programme
