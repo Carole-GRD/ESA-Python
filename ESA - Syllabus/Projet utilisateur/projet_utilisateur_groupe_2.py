@@ -1,3 +1,26 @@
+"""
+Ce module contient un ensemble de fonctions pour la gestion des utilisateurs.
+
+Les fonctionnalités incluent :
+    → Vérification et validation des informations utilisateur (nom, prénom, email, login, etc.).
+    → Affichage des informations des utilisateurs sous forme de liste ou de tableau formaté.
+    → Enregistrement interactif de nouveaux utilisateurs avec validation des données.
+
+Fonctions principales :
+    → check_nom_prenom : Valide le nom et le prénom.
+    → check_cp : Valide le code postal.
+    → check_email : Valide une adresse e-mail.
+    → check_login : Vérifie la disponibilité et la validité d'un login.
+    → check_mot_de_passe : Valide un mot de passe selon des critères de sécurité.
+    → afficher_utilisateur : Affiche les informations d'un utilisateur individuel.
+    → affichage_des_utilisateurs : Affiche la liste des utilisateurs enregistrés.
+    → tableau_des_utilisateurs : Affiche les utilisateurs sous forme de tableau formaté.
+    → enregistrer_un_utilisateur : Guide l'utilisateur dans l'ajout d'un nouvel utilisateur avec validation.
+    → enregistrer_des_utilisateurs : Permet l'enregistrement de plusieurs utilisateurs à la fois.
+"""
+
+
+# ===========================================================================================================
 def check_nom_prenom(nom, prenom):
     """
     Valide que le nom et le prénom sont différents et contiennent uniquement des lettres,
@@ -52,16 +75,19 @@ def check_email(mon_adresse_mail):
     Valide la structure d'une adresse e-mail.
 
     Args :
-        → mon_adresse_mail (str) : L'adresse e-mail à vérifier.
+        mon_adresse_mail (str) : L'adresse e-mail à vérifier.
 
     Returns :
-        → tuple : (bool, str) Indique si la validation est réussie et fournit un message.
+        tuple : (bool, str)
+            bool : indique si l'adresse est valide ou non
+            str : message décrivant le résultat de la validation
 
     Conditions de validité :
         → Un seul caractère '@' divisant l'adresse en deux parties.
         → La partie gauche contient uniquement des caractères alphanumériques, des points ou des tirets.
         → La partie droite est un domaine valide, avec un nom et une extension alphanumériques séparés par un point.
     """
+
     mon_adresse_mail_split = mon_adresse_mail.split("@")
 
     if len(mon_adresse_mail_split) != 2:
@@ -105,7 +131,7 @@ def check_login(login, users_list):
 
     # # Vérifier que chaque caractère est une lettre
     if not all(character.isalpha() for character in login):
-        return False, f"Le login contient des caractères non valides."
+        return False, f"Le login doit contenir uniquement des lettres."
 
     return True, "Login valide"
 
@@ -166,7 +192,21 @@ def check_mot_de_passe(mot_de_passe):
 # AFFICHAGE DES DONNEES D'UN UTILISATEUR
 # ======================================
 def afficher_utilisateur(numero, nom, prenom, cp, email, login, mot_de_passe):
-    """Affiche les informations de l'utilisateur avec le mot de passe masqué."""
+    """
+    Affiche les informations de l'utilisateur avec le mot de passe masqué.
+
+    Args :
+        → numero (int) : Le numéro de l'utilisateur.
+        → nom (str) : Le nom de l'utilisateur.
+        → prenom (str) : Le prénom de l'utilisateur.
+        → cp (str) : Le code postal de l'utilisateur.
+        → email (str) : L'adresse e-mail de l'utilisateur.
+        → login (str) : Le login de l'utilisateur.
+        → mot_de_passe (str) : Le mot de passe de l'utilisateur (affiché masqué).
+
+    Returns :
+        None
+    """
     print(f"\nInformations de l'utilisateur {numero} :")
     print(f"Nom : {nom}")
     print(f"Prénom : {prenom}")
@@ -180,6 +220,15 @@ def afficher_utilisateur(numero, nom, prenom, cp, email, login, mot_de_passe):
 # AFFICHAGE DE LA LISTE DES UTILISATEURS
 # ======================================
 def affichage_des_utilisateurs(utilisateurs_liste):
+    """
+    Affiche les informations des utilisateurs sous forme de liste.
+
+    Args :
+        utilisateurs_liste (list) : Liste des utilisateurs, où chaque utilisateur est une liste de données.
+
+    Returns :
+        None
+    """
     print("\nLa liste des utilisateurs !")
     for i, utilisateur in enumerate(utilisateurs_liste):
         print(f"\nUtilisateurs n°{i + 1}")
@@ -195,6 +244,21 @@ def affichage_des_utilisateurs(utilisateurs_liste):
 # AFFICHAGE DU TABLEAU DES UTILISATEURS
 # =====================================
 def tableau_des_utilisateurs(utilisateurs_liste):
+    """
+    Affiche les informations des utilisateurs sous forme de tableau formaté.
+
+    Args :
+        utilisateurs_liste (list) : la liste des utilisateurs enregistrés
+            utilisateur[0] : Nom (str)
+            utilisateur[1] : Prénom (str)
+            utilisateur[2] : Code postal (str)
+            utilisateur[3] : Email (str)
+            utilisateur[4] : Login (str)
+            utilisateur[5] : Mot de passe (str)
+
+    Returns :
+        None : La fonction ne retourne rien mais affiche un tableau formaté.
+    """
     print("\nTableau des utilisateurs !")
     # Affichage des en-têtes de colonne
     print(f"\n{'Numéro':<10} {'Nom':<15} {'Prénom':<20} {'Code postal':<15} {'Email':<30} "
@@ -235,8 +299,9 @@ def lancer_verification(champ, valeurs, fonction_verification, erreurs, messages
     return valeurs if len(valeurs) > 1 else valeurs[0]
 
 
-# =================================
-# =================================
+# =====================================
+#      ENREGISTRER UN UTILISATEUR
+# =====================================
 def enregistrer_un_utilisateur(utilisateurs_liste):
     """
     Enregistre un nouvel utilisateur en validant ses informations (saisie, validation, ajout).
@@ -263,7 +328,7 @@ def enregistrer_un_utilisateur(utilisateurs_liste):
 
         # Vérifier nom et le prénom
         nom, prenom = lancer_verification("nom/prenom", [nom, prenom], check_nom_prenom, erreurs,
-                                      ["le nom", "le prénom"])
+                                          ["le nom", "le prénom"])
 
         # Vérifier code postal
         cp = lancer_verification("code postal", [cp], check_cp, erreurs, ["le code postal"])
@@ -273,12 +338,12 @@ def enregistrer_un_utilisateur(utilisateurs_liste):
 
         # Vérifier login
         login = lancer_verification("login", [login], check_login, erreurs, ["le login"],
-                                utilisateurs_liste)
+                                    utilisateurs_liste)
         login = login.lower()
 
         # Vérifier mot de passe
         mot_de_passe = lancer_verification("mot de passe", [mot_de_passe], check_mot_de_passe, erreurs,
-                                       ["le mot de passe"])
+                                           ["le mot de passe"])
 
         # S'il n'y a pas d'erreurs, on ajoute l'utilisateur à la liste et on sort de la boucle.
         if not erreurs:
@@ -289,6 +354,9 @@ def enregistrer_un_utilisateur(utilisateurs_liste):
     return [nom, prenom, cp, email, login, '*' * len(mot_de_passe)]
 
 
+# =====================================
+#     ENREGISTRER DES UTILISATEURS
+# =====================================
 def enregistrer_des_utilisateurs(nbr_utilisateurs_a_enregister):
     """
     Enregistre plusieurs utilisateurs (saisie, validation et affichage).
@@ -316,5 +384,8 @@ def enregistrer_des_utilisateurs(nbr_utilisateurs_a_enregister):
     tableau_des_utilisateurs(utilisateurs_liste)
 
 
-# Lancer le programme
-enregistrer_des_utilisateurs(3)
+# =====================================
+#      LANCER LE PROGRAMME
+# =====================================
+nbr_utilisateurs = int(input("Nombre d'utilisateurs à enregistrer : "))
+enregistrer_des_utilisateurs(nbr_utilisateurs)
