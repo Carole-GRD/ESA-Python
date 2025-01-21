@@ -61,7 +61,17 @@ print(f"Le mot réorganisé est : {reordered}")
 
     Peut être remplacée par...
     
+        1. Méthode avec join et compréhension de liste/générateur (la plus optimale) :
+        ------------------------------------------------------------------------------
+        
         reordered = ''.join(word[i+1] + word[i] for i in range(0, len(word) - 1, 2))
+        
+    
+        2. Méthode avec une liste temporaire et join (alternative légèrement plus verbale) :
+        ------------------------------------------------------------------------------------
+        
+        pairs = [word[i + 1] + word[i] for i in range(0, len(word) - 1, 2)]
+        reordered = ''.join(pairs)
         
         
     Comparaison des performances (en pratique) :
