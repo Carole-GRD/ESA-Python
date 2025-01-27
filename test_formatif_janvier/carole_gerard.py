@@ -43,9 +43,9 @@ def reorder_word(word):
     return reordered
 
 
-input_word = input('Entrez un mot : ')
-reordered = reorder_word(input_word)
-print(f"Le mot réorganisé est : {reordered}")
+# input_word = input('Entrez un mot : ')
+# reordered = reorder_word(input_word)
+# print(f"Le mot réorganisé est : {reordered}")
 
 
 """
@@ -99,3 +99,40 @@ print(f"Le mot réorganisé est : {reordered}")
       et peut être plus simple à comprendre pour un débutant.
  
 """
+
+
+# ====================================================================
+# =========================   CORRECTION  ===========================
+# ====================================================================
+
+
+def reorder_word_2(word):
+    """
+
+    :param word: (str) Le mot dont les caractères sont permutés (désordre) 2 à 2.
+    :return: (str) Le mot avec les caractères correctement réorganisés.
+    """
+    reordered = ''
+    len_word = len(word)
+    # ATTENTION : Intérêt de créer la variable "len_word"...
+    # → car on utilise deux fois cette longueur dans la fonction
+    # → ainsi, on ne doit pas calculer deux fois la longueur du mot
+
+    # Parcourir par 2, en s'arrêtant avant le dernier indice,
+    # mais en incluant l'avant-dernier et le dernier caractère via word[i+1].
+    for i in range(0, len_word - 1, 2):
+        reordered += word[i+1] + word[i]
+
+    if len_word % 2 != 0:
+        # Si le mot a un nombre impair de caractères, on ajoute le dernier caractère non traité
+        # (car il n'a pas de pair pour l'échange).
+        reordered += word[-1]
+
+    return reordered
+
+
+input_word = input('Entrez un mot : ')
+# ATTENTION : ne pas créer de variables supplémentaires si ce n'est pas nécessaire
+# Ici, le but est d'afficher directement le mot réordonné
+# donc on fait un print directement sans stocker la réponse dans une variable
+print(reorder_word_2(input_word))
