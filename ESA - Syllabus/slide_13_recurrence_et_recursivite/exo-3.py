@@ -87,8 +87,7 @@ print(tab_nbr)
 #         # Comparer et retourner le maximum
 #         if max_gauche > max_droite:
 #             return max_gauche
-#         else:
-#             return max_droite
+#         return max_droite
 #
 #
 # print(f"find_max : {find_max(tab_nbr)}")

@@ -44,7 +44,7 @@ def est_palindrome(mot, mot_initial=None):
 
     # Si c'est la première itération, on garde le mot initial
     if mot_initial is None:
-        # if not mot:   # Cas spécifique : la chaîne d'origine est vide
+        # if not mot :   # Cas spécifique : la chaîne d'origine est vide
         #     return f'Une chaîne vide n\'est pas un palindrome.'
         mot_initial = mot
 
@@ -57,8 +57,7 @@ def est_palindrome(mot, mot_initial=None):
         # Appel récursif sur le mot sans les premiers et derniers caractères,
         # en passant le mot initial pour conserver son affichage dans le résultat final.
         return est_palindrome(mot[1:-1], mot_initial)
-    else:
-        return f'"{mot_initial}" n\'est pas un palindrome'
+    return f'"{mot_initial}" n\'est pas un palindrome'
 
 
 # ================================================================================

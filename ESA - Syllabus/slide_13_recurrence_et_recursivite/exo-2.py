@@ -51,8 +51,7 @@ def somme(tab_nbr):
     """
     if not tab_nbr:     # Cas de base : tableau vide
         return 0
-    else:
-        return tab_nbr[0] + somme(tab_nbr[1:])
+    return tab_nbr[0] + somme(tab_nbr[1:])
 
 
 tab_somme = somme(tab)

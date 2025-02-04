@@ -75,3 +75,17 @@ print(f"Vérification => len(phrase) : {len(phrase)}")             # 98
         - Puis, elle appelle récursivement longueur sur la sous-chaîne obtenue 
           en retirant le premier caractère (chaine[1:]).
 """
+
+# ==================================================================================
+# =============================== CORRECTION  ==================================
+# ==================================================================================
+
+
+def longueur(chaine):
+    if not chaine:  # Cas de base : chaîne vide
+        return 0
+    return 1 + longueur(chaine[1:])  # Retire le premier caractère et continue
+
+
+ch = input('Quelle est votre phrase : ')
+print(longueur(ch))
