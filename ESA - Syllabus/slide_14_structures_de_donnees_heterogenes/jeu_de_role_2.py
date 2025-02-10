@@ -148,8 +148,8 @@ def lancer_combat(personnage, niveau=1):
 def afficher_personnage(personnage):
     """
     Affiche les détails d'un personnage de manière formatée.
-    # TODO :
-    :param personnage:
+
+    :param personnage: (dict) Un dictionnaire contenant les détails du personnage.
     :return: /
     """
     print(f"--- Détails du personnage ---\n"
