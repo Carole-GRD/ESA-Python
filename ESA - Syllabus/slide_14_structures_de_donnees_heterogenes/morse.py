@@ -39,6 +39,7 @@ def transformer_texte_en_morse(phrase):
     """
     phrase = phrase.upper()
     phrase_resultat = ''
+
     for caractere in phrase:
         if caractere == ' ':
             phrase_resultat += ' '
@@ -48,6 +49,7 @@ def transformer_texte_en_morse(phrase):
                 # Ajoute un espace avant chaque code Morse trouvé, sauf pour les caractères inconnus,
                 # qui sont ignorés grâce à la valeur par défaut ''. Cela évite d'insérer des espaces superflus.
                 phrase_resultat += ' ' + code
+
     return f"Résultat (en morse) : {phrase_resultat}"
 
 
@@ -58,15 +60,22 @@ def transformer_morse_en_texte(morse):
     """
     mots = morse.split(' ' * 2)
     mot_resultat = []
+
     for mot in mots:
         lettre_resultat = []
         lettres = mot.split(' ')
+
         for lettre in lettres:
             lettre_resultat.append(dico_morse_vers_texte.get(lettre, ''))  # '' ignore les caractères inconnus
+
         mot_resultat.append(''.join(lettre_resultat))
+
     texte = ' '.join(mot_resultat)
 
+    # Si l'adresse e-mail est détectée (présence de '@'), on garde la casse d'origine (minuscules).
+    # Sinon, on met la première lettre en majuscule.
     texte = texte.lower() if '@' in texte else texte.capitalize()
+
     return f"Résultat (en texte) : {texte}"
 
 
