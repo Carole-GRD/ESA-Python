@@ -98,7 +98,7 @@ def lancer_combat(personnage, niveau=1):
     # Affichage des adversaires
     avatar_nom_personnage = personnage['avatar'] + ' ' + personnage['nom']
     avatar_nom_boss = boss['avatar'] + ' ' + boss['nom']
-    print(f'{avatar_nom_personnage} ({pdv_personnage} pdv)  🆚   {avatar_nom_boss} ({boss['pdv']} pdv)')
+    print(f'{avatar_nom_personnage} ({pdv_personnage} pdv)   🆚   {avatar_nom_boss} ({boss['pdv']} pdv)')
     print('--------------------------------------')
 
     # Booléen qui alterne entre joueur et boss à chaque tour

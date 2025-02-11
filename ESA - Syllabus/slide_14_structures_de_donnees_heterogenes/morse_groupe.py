@@ -1,29 +1,18 @@
 """
 Programme de conversion entre texte et code Morse.
-Les lettres en Morse sont séparées par un/deux espace(s), et les mots par trois/six espaces.
+Les lettres en Morse sont séparées par un espace, et les mots par trois espaces.
 La sortie en texte commence par une majuscule, sauf pour les e-mails qui restent en minuscules.
 
 Un menu permet à l'utilisateur de choisir la transformation à effectuer.
 
 Pour tester :
     Salut les gars !
-    Hola, chicos!
+    ¡Hola, chicos!
     email@test.be
 
 Date : 10-02-2025
 Auteurs : Gwenaël, Hyacinthe, Alfred, Edith, Franck, Boris, Carole, Christian
 """
-
-# Constantes
-SEPARATEUR_LETTRE = ' '
-SEPARATEUR_MOT = SEPARATEUR_LETTRE * 3
-# ---------------------------------------
-# SEPARATEUR_LETTRE = ' ' * 2
-# SEPARATEUR_MOT = SEPARATEUR_LETTRE * 2
-# ---------------------------------------
-# SEPARATEUR_LETTRE = ' '
-# SEPARATEUR_MOT = f"{SEPARATEUR_LETTRE}/{SEPARATEUR_LETTRE}"
-
 
 # Dictionnaire pour la traduction en morse
 dico_texte_vers_morse = {
@@ -50,12 +39,19 @@ def transformer_texte_en_morse(phrase):
     """
     phrase = phrase.upper()
     phrase_resultat = []
+
     for caractere in phrase:
         if caractere == ' ':
-            phrase_resultat.append(SEPARATEUR_MOT)
+            phrase_resultat.append(' ')
             continue
-        phrase_resultat.append(dico_texte_vers_morse.get(caractere, ''))  # '' ignore les caractères inconnus
-    return f"Résultat (en morse) : {SEPARATEUR_LETTRE.join(phrase_resultat)}"
+
+        code = dico_texte_vers_morse.get(caractere, '')  # '' ignore les caractères inconnus
+        if code != '':
+            # Ajouter uniquement si le caractère a une correspondance en Morse.
+            # Sinon, éviter d'insérer une chaîne vide, ce qui générerait un espace superflu lors du join().
+            phrase_resultat.append(code)
+
+    return f"Résultat (en morse) : {' '.join(phrase_resultat)}"
 
 
 def transformer_morse_en_texte(morse):
@@ -63,16 +59,19 @@ def transformer_morse_en_texte(morse):
     :param morse: (str) La phrase en Morse à transformer.
     :return: (str) La phrase transformée en texte.
     """
-    mots = morse.split(SEPARATEUR_MOT)
+    mots = morse.split(' ' * 3)
     mot_resultat = []
+
     for mot in mots:
         lettre_resultat = []
-        lettres = mot.split(SEPARATEUR_LETTRE)
+        lettres = mot.split(' ')
+
         for lettre in lettres:
             lettre_resultat.append(dico_morse_vers_texte.get(lettre, ''))  # '' ignore les caractères inconnus
-        mot_resultat.append(''.join(lettre_resultat))
-    texte = ' '.join(mot_resultat)
 
+        mot_resultat.append(''.join(lettre_resultat))
+
+    texte = ' '.join(mot_resultat)
     texte = texte.lower() if '@' in texte else texte.capitalize()
     return f"Résultat (en texte) : {texte}"
 

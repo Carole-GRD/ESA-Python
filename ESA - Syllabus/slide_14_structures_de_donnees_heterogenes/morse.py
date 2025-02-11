@@ -1,24 +1,21 @@
 """
-    Travail de groupe
-    Exercice 3 : Écrivez un programme permettant de traduire une phrase reçue en morse.
+Programme de conversion entre texte et code Morse.
+Les lettres en Morse sont séparées par un espace, et les mots par deux espaces.
+La sortie en texte commence par une majuscule, sauf pour les e-mails qui restent en minuscules.
 
-    Pour tester :
+Un menu permet à l'utilisateur de choisir la transformation à effectuer.
 
-    Apprendre le morse est amusant !
-    .- .--. .--. .-. . -. -.. . .-.. . -- --- .-. ... . . ... - .- -- ..- ... .- -. - -.-.--
-
+Pour tester :
     Salut les gars !
-    ... .- .-.. ..- -   .-.. . ...   --. .- .-. ...   -.-.--
-
+    ¡Hola, chicos!
     email@test.be
-    . -- .- .. .-.. .--.-. - . ... - .-.-.- -... .
+
+Date : 10-02-2025
+Auteurs : Gwenaël, Hyacinthe, Alfred, Edith, Franck, Boris, Carole, Christian
 """
 
-# ==============================================================================================
-# ====================================  Dictionnaires  =========================================
-# ==============================================================================================
-
-dico_utf8_vers_morse = {
+# Dictionnaire pour la traduction en morse
+dico_texte_vers_morse = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
     'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
     'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
@@ -32,60 +29,58 @@ dico_utf8_vers_morse = {
     '.': '.-.-.-', '?': '..--..', '!': '-.-.--', '@': '.--.-.'
 }
 
-# print(f"dico_utf8_vers_morse : {dico_utf8_vers_morse}")
-
-dico_morse_vers_utf8 = {value: key for key, value in dico_utf8_vers_morse.items()}
-# print(f"dico_morse_vers_utf8 : {dico_morse_vers_utf8}")
+dico_morse_vers_texte = {value: key for key, value in dico_texte_vers_morse.items()}
 
 
-# ==============================================================================================
-# =======================================  Fonctions  ==========================================
-# ==============================================================================================
-
-def transformer_utf8_en_morse(phrase):
-    phrase_resultat = []
+def transformer_texte_en_morse(phrase):
+    """
+    :param phrase: (str) La phrase en texte à transformer.
+    :return: (str) La phrase transformée en code Morse.
+    """
+    phrase = phrase.upper()
+    phrase_resultat = ''
     for caractere in phrase:
         if caractere == ' ':
-            phrase_resultat.append(' ')
-            continue
-        phrase_resultat.append(dico_utf8_vers_morse[caractere.upper()])
+            phrase_resultat += ' '
+        else:
+            code = dico_texte_vers_morse.get(caractere, '')  # '' ignore les caractères inconnus
+            if code != '':
+                # Ajoute un espace avant chaque code Morse trouvé, sauf pour les caractères inconnus,
+                # qui sont ignorés grâce à la valeur par défaut ''. Cela évite d'insérer des espaces superflus.
+                phrase_resultat += ' ' + code
+    return f"Résultat (en morse) : {phrase_resultat}"
 
-    return f"Votre phrase en morse : {' '.join(phrase_resultat)}"
 
-
-def transformer_morse_en_utf8(morse):
-    mots = morse.split(' ' * 3)
-    mots_et_lettres = []
-    for mot in mots:
-        lettre = mot.split(' ')
-        mots_et_lettres.append(lettre)
-
+def transformer_morse_en_texte(morse):
+    """
+    :param morse: (str) La phrase en Morse à transformer.
+    :return: (str) La phrase transformée en texte.
+    """
+    mots = morse.split(' ' * 2)
     mot_resultat = []
-    for i, mot in enumerate(mots_et_lettres):
+    for mot in mots:
         lettre_resultat = []
-        for j, lettre in enumerate(mot):
-            if i == 0 and j == 0:
-                lettre_resultat.append(dico_morse_vers_utf8[lettre])
-            else:
-                lettre_resultat.append(dico_morse_vers_utf8[lettre].lower())
+        lettres = mot.split(' ')
+        for lettre in lettres:
+            lettre_resultat.append(dico_morse_vers_texte.get(lettre, ''))  # '' ignore les caractères inconnus
         mot_resultat.append(''.join(lettre_resultat))
-    return f"Votre phrase en utf8 : {' '.join(mot_resultat)}"
+    texte = ' '.join(mot_resultat)
+
+    texte = texte.lower() if '@' in texte else texte.capitalize()
+    return f"Résultat (en texte) : {texte}"
 
 
-# ==============================================================================================
-# ======================================  Programme  ==========================================
-# ==============================================================================================
-
+# Programme principal
 while True:
-    transformation = input('phrase vers morse (1) - morse vers phrase (2) - quitter (q) : ')
-    while not (transformation == 'q' or transformation == '1' or transformation == '2'):
-        print('ERREUR : choisissez 1, 2 ou q')
-        transformation = input('vers morse (1) - morse vers phrase (2) - quitter (q) : ')
+    transformation = input("texte 👉 morse (1) - morse ➡️ texte (2) - quitter (q) : ")
+
     if transformation == 'q':
         break
-    if transformation == '1':
-        phrase = input('Votre phrase (en utf-8) : ')
-        print(transformer_utf8_en_morse(phrase))
-    if transformation == '2':
-        morse = input('Votre phrase (en morse) : ')
-        print(transformer_morse_en_utf8(morse))
+    elif transformation == '1':
+        phrase = input("Votre phrase (en texte) : ").strip()
+        print(transformer_texte_en_morse(phrase), '\n')
+    elif transformation == '2':
+        morse = input("Votre phrase (en Morse) : ").strip()
+        print(transformer_morse_en_texte(morse), '\n')
+    else:
+        print("ERREUR : choisissez 1, 2 ou q.\n")
