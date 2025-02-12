@@ -51,6 +51,7 @@ def creer_personnage():
         'race': race,
         'classe': classe,
         'dv': dv[classe],
+        # Avatar défini directement pour éviter l'affichage des codes Unicode bruts
         'avatar': '👩‍🦰' if genre == 'féminin' else '👨‍🦱'
     }
 
@@ -196,7 +197,7 @@ while choix_menu != 'q':
         if choix_creation == 'o':
             personnage_2 = creer_personnage()
             afficher_personnage(personnage_2)
-        if choix_creation == 'n':
+        elif choix_creation == 'n':
             break
 
     if personnage_2 != '':

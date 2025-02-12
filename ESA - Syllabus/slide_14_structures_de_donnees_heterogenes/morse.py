@@ -81,15 +81,16 @@ def transformer_morse_en_texte(morse):
 
 # Programme principal
 while True:
-    transformation = input("texte 👉 morse (1) - morse ➡️ texte (2) - quitter (q) : ")
+    choix = input("texte 👉 morse (1) - morse ➡️ texte (2) - quitter (q) : ")
 
-    if transformation == 'q':
-        break
-    elif transformation == '1':
-        phrase = input("Votre phrase (en texte) : ").strip()
-        print(transformer_texte_en_morse(phrase), '\n')
-    elif transformation == '2':
-        morse = input("Votre phrase (en Morse) : ").strip()
-        print(transformer_morse_en_texte(morse), '\n')
-    else:
-        print("ERREUR : choisissez 1, 2 ou q.\n")
+    match choix:
+        case 'q':
+            break
+        case '1':
+            phrase = input("Votre phrase (en texte) : ").strip()
+            print(transformer_texte_en_morse(phrase), '\n')
+        case '2':
+            morse = input("Votre phrase (en Morse) : ").strip()
+            print(transformer_morse_en_texte(morse), '\n')
+        case _:
+            print("ERREUR : choisissez 1, 2 ou q.\n")
