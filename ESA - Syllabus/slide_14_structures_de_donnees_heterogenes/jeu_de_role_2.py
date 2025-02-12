@@ -25,20 +25,20 @@ def creer_personnage():
     # Demande le nom du personnage
     nom = input('Nom du personnage : ')
 
-    # Vérification de l'entrée du genre (doit être 'm' ou 'f')
+    # Vérifie que le genre est valide (f/m)
     while (genre := input('Genre du personnage f/m : ')) not in ['f', 'm']:
         print('ERREUR: entrer "m" ou "f" !')
     genre = 'masculin' if genre == 'm' else 'féminin'
 
-    # Sélection de la race avec vérification (doit être '1', '2', '3' ou '4')
+    # Sélection et validation de la race
     races = {'1': 'Humain', '2': 'Elfe', '3': 'Nain', '4': 'Gnome'}
     race_choix = input('Race du personnage (1: Humain, 2 : Elfe, 3: Nain, 4: Gnome) : ')
-    while race_choix not in ['1', '2', '3', '4']:
+    while race_choix not in races:
         print('ERREUR: choisissez 1, 2, 3 ou 4 !')
         race_choix = input('Race du personnage (1: Humain, 2 : Elfe, 3: Nain, 4: Gnome) : ')
     race = races[race_choix]
 
-    # Attribution aléatoire d'une classe
+    # Classe attribuée aléatoirement (+ points de vie)
     classes = {1: 'Magicien', 2: 'Voleur', 3: 'Prêtre', 4: 'Guerrier'}
     dv = {'Magicien': 4, 'Voleur': 6, 'Prêtre': 8, 'Guerrier': 10}
     num_classe = random.randint(1, 4)
@@ -104,6 +104,7 @@ def lancer_combat(personnage, niveau=1):
 
     # Booléen qui alterne entre joueur et boss à chaque tour
     joueur = False
+
     # Boucle de combat principal : le joueur et le boss alternent entre attaque et défense
     while boss['pdv'] > 0 and pdv_personnage > 0:
         joueur = not joueur
@@ -115,7 +116,7 @@ def lancer_combat(personnage, niveau=1):
         # Si l'attaque dépasse la défense, un coup est porté
         if attaque > defense:
             coup_critique = False
-            # 10% de chance qu'un coup critique soit porté et double les dégâts
+            # 10% de chance de coup critique (x2 dégâts)
             if random.random() < 0.1:
                 attaque *= 2
                 coup_critique = True
@@ -123,19 +124,13 @@ def lancer_combat(personnage, niveau=1):
             if joueur:
                 # Attaque du joueur
                 boss['pdv'] -= point_perdu
-                if coup_critique:
-                    print(f'\n💥 COUP CRITIQUE ! {avatar_nom_personnage} attaque de {attaque}')
-                else:
-                    print(f'\n{avatar_nom_personnage} attaque de {attaque}')
+                print(f'\n{'💥 COUP CRITIQUE ! ' if coup_critique else ''}{avatar_nom_personnage} attaque de {attaque}')
                 print(f'{avatar_nom_boss} perd {point_perdu} point{'s' if point_perdu > 1 else ''} de vie,'
                       f' il lui reste {boss['pdv']}')
             else:
                 # Attaque du boss
                 pdv_personnage -= point_perdu
-                if coup_critique:
-                    print(f'\n💥 COUP CRITIQUE ! {avatar_nom_boss} attaque de {attaque}')
-                else:
-                    print(f'\n{avatar_nom_boss} attaque de {attaque}')
+                print(f'\n{'💥 COUP CRITIQUE ! ' if coup_critique else ''}{avatar_nom_boss} attaque de {attaque}')
                 print(f'{avatar_nom_personnage} perd {point_perdu} point{'s' if point_perdu > 1 else ''} de vie,'
                       f' il lui reste {pdv_personnage}')
         else:
@@ -157,11 +152,11 @@ def afficher_personnage(personnage):
     :return: /
     """
     print(f"--- Détails du personnage ---\n"
-          f"Nom      : {personnage['nom']}\n"
-          f"Genre    : {personnage['genre']}\n"
-          f"Avatar : {personnage['avatar']}\n"
-          f"Race     : {personnage['race']}\n"
-          f"Classe   : {personnage['classe']}\n"
+          f"Nom        : {personnage['nom']}\n"
+          f"Genre      : {personnage['genre']}\n"
+          f"Avatar     : {personnage['avatar']}\n"
+          f"Race       : {personnage['race']}\n"
+          f"Classe     : {personnage['classe']}\n"
           f"Dés de vie : {personnage['dv']}\n")
 
 
@@ -172,18 +167,18 @@ personnage_2 = ''
 premiere_partie = True
 rejouer = ''
 while choix_menu != 'q':
-    if not premiere_partie and choix_combat != 'q':
+    if not premiere_partie and choix_combat != 'a':
         rejouer = input('Rejouer (r) - Quitter (q) : ')
     else:
         premiere_partie = False
     if rejouer == 'q':
-        print('A bientôt 👋')
+        print('\nA bientôt 👋')
         break
     else:
         # Si le joueur veut rejouer, on réinitialise choix_combat pour la prochaine itération.
         choix_combat = ''
 
-    print('\n------- Bienvenu sur la jeu "baldur\'s gate 4" -------\n')
+    print('\n------- Bienvenue sur le jeu "baldur\'s gate 4" -------\n')
 
     personnage_1 = creer_personnage()
 
@@ -201,26 +196,28 @@ while choix_menu != 'q':
             break
 
     if personnage_2 != '':
-        choix_personnage = int(input(f'Choisis ton personnage... \n'
-                                     f'{personnage_1['nom'].upper()} : {personnage_1['dv']} pdv (1) '
-                                     f'ou {personnage_2['nom'].upper()} : {personnage_2['dv']} pdv (2) : '))
-        # Attribution éventuelle du personnage 2
-        if choix_personnage == 2:
-            personnage_principal = personnage_2
+        choix_personnage = int(
+            input(f'Choisis ton personnage... \n'
+                  f'{personnage_1['avatar']} {personnage_1['nom']} : {personnage_1['dv']} pdv (1) '
+                  f'ou {personnage_2['avatar']} {personnage_2['nom']} : {personnage_2['dv']} pdv (2) : '))
 
-    choix_menu = input(f'Voulez-vous combattre avec {personnage_principal['nom']} (c) ou quitter (q) : ')
+        # Attribution du personnage choisi par l'utilisateur
+        personnage_principal = personnage_2 if choix_personnage == 2 else personnage_1
+
+    choix_menu = input(f'Voulez-vous combattre avec {personnage_principal['avatar']} {personnage_principal['nom']} (c)'
+                       f' ou quitter le jeu (q) : ')
     if choix_menu == 'q':
-        print('A bientôt 👋')
+        print('\nA bientôt 👋')
 
     niveau = 1
 
     if choix_menu == 'c':
-        while choix_combat != 'q' and niveau <= 5:
+        while choix_combat != 'a' and niveau <= 5:
             print(f'\n-------------  Niveau {niveau}  -------------')
             resultat = lancer_combat(personnage_principal, niveau)
             if resultat:
                 niveau += 1
                 print(f'Bravo tu as atteint le niveau {niveau} !')
-                choix_combat = input(f'Pour continuer (c) ou choisir un autre personnage (q) : ')
+                choix_combat = input(f'Pour continuer (c) ou choisir un autre personnage (a) : ')
             else:
                 break
