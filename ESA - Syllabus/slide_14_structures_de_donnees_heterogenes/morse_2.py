@@ -38,20 +38,20 @@ def transformer_texte_en_morse(phrase):
     :return: (str) La phrase transformée en code Morse.
     """
     phrase = phrase.upper()
-    phrase_resultat = []
+    code_resultat = []
 
     for caractere in phrase:
         if caractere == ' ':
-            phrase_resultat.append(' ')
+            code_resultat.append(' ')
             continue
 
         code = dico_texte_vers_morse.get(caractere, '')  # '' ignore les caractères inconnus
         if code != '':
             # Ajouter uniquement si le caractère a une correspondance en Morse.
             # Sinon, éviter d'insérer une chaîne vide, ce qui générerait un espace superflu lors du join().
-            phrase_resultat.append(code)
+            code_resultat.append(code)
 
-    return f"Résultat (en morse) : {' '.join(phrase_resultat)}"
+    return f"Résultat (en morse) : {' '.join(code_resultat)}"
 
 
 def transformer_morse_en_texte(morse):
@@ -72,6 +72,9 @@ def transformer_morse_en_texte(morse):
         mot_resultat.append(''.join(lettre_resultat))
 
     texte = ' '.join(mot_resultat)
+
+    # Si l'adresse e-mail est détectée (présence de '@'), on garde la casse d'origine (minuscules).
+    # Sinon, on met la première lettre en majuscule.
     texte = texte.lower() if '@' in texte else texte.capitalize()
     return f"Résultat (en texte) : {texte}"
 

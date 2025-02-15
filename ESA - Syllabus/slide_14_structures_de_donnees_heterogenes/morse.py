@@ -38,19 +38,19 @@ def transformer_texte_en_morse(phrase):
     :return: (str) La phrase transformée en code Morse.
     """
     phrase = phrase.upper()
-    phrase_resultat = ''
+    code_resultat = ''
 
     for caractere in phrase:
         if caractere == ' ':
-            phrase_resultat += ' '
+            code_resultat += ' '
         else:
             code = dico_texte_vers_morse.get(caractere, '')  # '' ignore les caractères inconnus
             if code != '':
                 # Ajoute un espace avant chaque code Morse trouvé, sauf pour les caractères inconnus,
                 # qui sont ignorés grâce à la valeur par défaut ''. Cela évite d'insérer des espaces superflus.
-                phrase_resultat += ' ' + code
+                code_resultat += ' ' + code
 
-    return f"Résultat (en morse) : {phrase_resultat}"
+    return f"Résultat (en morse) : {code_resultat}"
 
 
 def transformer_morse_en_texte(morse):

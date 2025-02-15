@@ -12,6 +12,7 @@ Un menu permet à l'utilisateur de choisir la transformation à effectuer.
 Pour tester :
     Salut les gars !
     ¡Hola, chicos!
+    ¡Hola, chicos! ¿Cómo va todo?
     email@test.be
 
 Date : 10-02-2025
@@ -46,18 +47,15 @@ def transformer_texte_en_morse(phrase):
     """
     phrase = phrase.upper()
     mots = phrase.split(' ')
-    # print(f"mot : {mots}")
     mot_resultat = []
 
     for mot in mots:
         lettre_resultat = []
 
         for lettre in mot:
-            # lettre_resultat.append(dico_texte_vers_morse.get(lettre, ''))  # '' ignore les caractères inconnus
             # Vérifier d'abord si le caractère est valide, cela évite d'insérer des espaces superflus
-            # lors du join() avec des chaines vides (valeur par défaut) s'il n'est pas trouvé.
+            # lors du join() avec des chaines vides (valeur par défaut).
             caractere_valide = dico_texte_vers_morse.get(lettre, '')
-            # print(f"caractere_valide : {caractere_valide}")
             if caractere_valide != '':
                 lettre_resultat.append(dico_texte_vers_morse[lettre])
 
