@@ -2,12 +2,12 @@
 Jeu de combat dans lequel un personnage affronte des boss de niveaux croissants.
 
 Le programme permet de :
-    1. Créer un ou deux personnage(s) avec des caractéristiques variées.
-    2. Dans le cas où l'utilisateur aurait créé deux personnages : choisir le personnage qui va combattre le boss.
-    3. Générer des boss aux points de vie croissants.
-    4. Simuler des combats jusqu'à la victoire ou la défaite.
+    1. Créer un ou deux personnages avec des caractéristiques variées.
+    2. Sélectionner un personnage pour combattre le boss.
+    3. Générer des boss avec des points de vie augmentant à chaque niveau.
+    4. Simuler des combats au tour par tour jusqu'à la victoire ou la défaite.
 
-Le joueur peut progresser à travers plusieurs niveaux en battant les boss successifs.
+Le joueur peut progresser à travers plusieurs niveaux en battant successivement des boss de plus en plus puissants.
 
 Date : 10-02-2025
 Auteurs : Gwenaël, Hyacinthe, Alfred, Edith, Franck, Boris, Carole, Christian

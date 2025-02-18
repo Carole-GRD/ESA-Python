@@ -11,9 +11,8 @@ Un menu permet à l'utilisateur de choisir la transformation à effectuer.
 
 Pour tester :
     Salut les gars !
-    ¡Hola, chicos!
     ¡Hola, chicos! ¿Cómo va todo?
-    email@test.be
+    email-48@test.be
 
 Date : 10-02-2025
 Auteurs : Gwenaël, Hyacinthe, Alfred, Edith, Franck, Boris, Carole, Christian
@@ -22,7 +21,7 @@ Auteurs : Gwenaël, Hyacinthe, Alfred, Edith, Franck, Boris, Carole, Christian
 # Constante
 SEPARATEUR_MOT = ' ' * 2
 
-# Dictionnaire pour la traduction en morse
+# Dictionnaire pour la traduction du texte en morse
 dico_texte_vers_morse = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
     'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
@@ -34,18 +33,29 @@ dico_texte_vers_morse = {
     '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
     '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
 
-    '.': '.-.-.-', '?': '..--..', '!': '-.-.--', '@': '.--.-.'
+    '.': '.-.-.-', ',': '--..--', '?': '..--..', '!': '-.-.--', '@': '.--.-.',
+    '-': '-....-', '/': '-..-.', '(': '-.--.', ')': '-.--.-', '"': '.-..-.',
+    "'": '.----.', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+    '_': '..--.-', '$': '...-..-', '&': '.-...', ' ': ' '
 }
 
+# Dictionnaire pour la traduction du morse en texte
 dico_morse_vers_texte = {value: key for key, value in dico_texte_vers_morse.items()}
 
 
-def transformer_texte_en_morse(phrase):
+def transformer_texte_en_morse(phrase, dico_txt_morse, sep_mot):
     """
+    Convertit une phrase en code Morse.
     :param phrase: (str) La phrase en texte à transformer.
+    :param dico_txt_morse: (dict) Dictionnaire de conversion texte → Morse.
+    :param sep_mot: (str) Séparateur entre les mots en Morse.
     :return: (str) La phrase transformée en code Morse.
     """
     phrase = phrase.upper()
+
+    if not all(c in dico_txt_morse for c in phrase):
+        return "ERREUR : L'entrée contient des caractères non pris en charge."
+
     mots = phrase.split(' ')
     mot_resultat = []
 
@@ -53,26 +63,27 @@ def transformer_texte_en_morse(phrase):
         lettre_resultat = []
 
         for lettre in mot:
-            # Vérifier d'abord si le caractère est valide, cela évite d'insérer des espaces superflus
-            # lors du join() avec des chaines vides (valeur par défaut).
-            caractere_valide = dico_texte_vers_morse.get(lettre, '')
-            if caractere_valide != '':
-                lettre_resultat.append(dico_texte_vers_morse[lettre])
+            lettre_resultat.append(dico_txt_morse.get(lettre, ''))
 
         mot_resultat.append(' '.join(lettre_resultat))
 
-    texte = SEPARATEUR_MOT.join(mot_resultat)
+    texte = sep_mot.join(mot_resultat)
 
     return f"Résultat (en morse) : {texte}"
 
 
-def transformer_morse_en_texte(morse):
+def transformer_morse_en_texte(morse, dico_morse_txt, sep_mot):
     """
+    Convertit du code Morse en texte.
     :param morse: (str) La phrase en Morse à transformer.
+    :param dico_morse_txt: (dict) Dictionnaire de conversion Morse → Texte.
+    :param sep_mot: (str) Séparateur entre les mots en Morse.
     :return: (str) La phrase transformée en texte.
     """
-    # mots = morse.split(' ' * 3)
-    mots = morse.split(SEPARATEUR_MOT)
+    if not all(c in ".- /" for c in morse):  # Vérifie que seuls des caractères morse sont présents
+        return "ERREUR : L'entrée Morse contient des caractères invalides."
+
+    mots = morse.split(sep_mot)
     mot_resultat = []
 
     for mot in mots:
@@ -80,7 +91,7 @@ def transformer_morse_en_texte(morse):
         lettres = mot.split(' ')
 
         for lettre in lettres:
-            lettre_resultat.append(dico_morse_vers_texte.get(lettre, ''))  # '' ignore les caractères inconnus
+            lettre_resultat.append(dico_morse_txt[lettre])
 
         mot_resultat.append(''.join(lettre_resultat))
 
@@ -94,16 +105,18 @@ def transformer_morse_en_texte(morse):
 
 # Programme principal
 while True:
-    choix = input("texte 👉 morse (1) - morse ➡️ texte (2) - quitter (q) : ")
+    print("\n--- Convertisseur Texte ↔ Morse ---")
+    choix = input("Texte → Morse (1) - Morse → Texte (2) - Quitter (q) : ").strip().lower()
 
     match choix:
         case 'q':
+            print("\nMerci d'avoir utilisé le convertisseur. Au revoir !")
             break
         case '1':
             phrase = input("Votre phrase (en texte) : ").strip()
-            print(transformer_texte_en_morse(phrase), '\n')
+            print(transformer_texte_en_morse(phrase, dico_texte_vers_morse, SEPARATEUR_MOT), '\n')
         case '2':
             morse = input("Votre phrase (en Morse) : ").strip()
-            print(transformer_morse_en_texte(morse), '\n')
+            print(transformer_morse_en_texte(morse, dico_morse_vers_texte, SEPARATEUR_MOT), '\n')
         case _:
-            print("ERREUR : choisissez 1, 2 ou q.\n")
+            print("ERREUR : Veuillez choisir 1, 2 ou q.\n")
