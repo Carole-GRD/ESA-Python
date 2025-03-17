@@ -97,16 +97,16 @@ def ajouter_etudiant(tuple_etudiants):
             nouvel_etudiant["id"] = f"ETU{dernier_id + 1:03}"
 
         elif cle == "notes (sur 20)":
-            notes = input("Notes (séparées par une virgule, laisser vide si non renseignées) : ")
+            notes = input("Notes sur 20 (séparées par une virgule, laisser vide si non renseignées) : ")
             if notes == "":  # Si aucune note n'est saisie
                 # notes = []
                 # moyenne = None
-                nouvel_etudiant["notes"] = 'pas de notes'
+                nouvel_etudiant["notes (sur 20)"] = 'pas de notes'
                 nouvel_etudiant["moyenne"] = '/'
             else:
                 notes = [float(x) for x in notes.split(",")]
                 moyenne = sum(notes) / len(notes)
-                nouvel_etudiant["notes"] = [int(note) for note in notes]
+                nouvel_etudiant["notes (sur 20)"] = [int(note) for note in notes]
                 nouvel_etudiant["moyenne"] = "{:.2f}".format(moyenne)
 
         elif cle == "moyenne":  # la moyenne est calculée sur base des notes
@@ -230,7 +230,9 @@ def supprimer_etudiant(tuple_etudiants):
         print(f"\nÉtudiant avec l'ID {etudiant_id} introuvable.")
         return tuple_etudiants
 
+    # S'il faut supprimer plusieurs éléments du tuple, utiliser directement la boucle...
     # tuple_etudiants = tuple(etudiant for etudiant in tuple_etudiants if etudiant['id'] != etudiant_id)
+    # Suppression d'un élément unique, on peut utiliser l'index...
     tuple_etudiants = tuple_etudiants[:index] + tuple_etudiants[index + 1:]
     print(f"Étudiant avec ID {etudiant_id} supprimé avec succès.")
     return tuple_etudiants
@@ -246,14 +248,14 @@ def supprimer_etudiant(tuple_etudiants):
 # ================  Ajouter/Supprimer dynamiquement une clé avec une fonction  =================
 # ==============================================================================================
 
-def modifier_structure_dico(tuple_etudiants, action="ajouter"):
+def modifier_structure_dico(tuple_etudiants, action):
     """
     :param tuple_etudiants: (list) Liste de dictionnaires reprenant les informations des étudiants.
     :param action: (str, optionnel) Permet de savoir si on ajoute ou supprime un champ.
     :return: Ne retourne rien. Modifie la structure du dictionnaire.
     """
     print("\n")
-    cle = input("Entrez le nom de la clé à " + ("ajouter" if action else "supprimer") + " : ")
+    cle = input(f"Entrez le nom de la clé à {"ajouter" if action == "ajouter" else "supprimer"} : ")
 
     if action == "ajouter":
         for etudiant in tuple_etudiants:
@@ -276,7 +278,7 @@ def modifier_structure_dico(tuple_etudiants, action="ajouter"):
 while True:
     menu = input(f"\n--------  MENU 📜 --------\n"
                  f"1: 🔎 Afficher les étudiants\n"
-                 f"2: ✔️ Ajouter un étudiant\n"
+                 f"2: ✔️ Ajouter un étudiantsupprimer_etudiant\n"
                  f"3: ✏️ Modifier un étudiant\n"
                  f"4: ❌ Supprimer un étudiant\n"
                  f"5: 📝 Modifier la structure des informations\n"
@@ -293,7 +295,7 @@ while True:
         case '3':
             modifier_etudiant(tuple_etudiants)
         case '4':
-            tuple_etudiants = supprimer_etudiant(tuple_etudiants)
+            tuple_etudiants = (tuple_etudiants)
         case '5':
             action = input(f"\n--------- MODIFIER LE DICTIONNAIRE 📚 ---------\n"
                            f"1: ✔️ Ajouter un champ \n"
@@ -302,5 +304,7 @@ while True:
                            f"Votre choix : ").lower()
             if action == 'q':
                 continue
-            else:
-                modifier_structure_dico(tuple_etudiants, "ajouter" if action == '1' else "supprimer")
+            elif action == '1':
+                modifier_structure_dico(tuple_etudiants, "ajouter")
+            elif action == '2':
+                modifier_structure_dico(tuple_etudiants, "supprimer")
