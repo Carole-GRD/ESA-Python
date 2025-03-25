@@ -238,14 +238,14 @@ def supprimer_etudiant(liste_etudiants):
 # ================  Ajouter/Supprimer dynamiquement une clé avec une fonction  =================
 # ==============================================================================================
 
-def modifier_structure_dico(liste_etudiants, action="ajouter"):
+def modifier_structure_dico(liste_etudiants, action):
     """
     :param liste_etudiants: (list) Liste de dictionnaires reprenant les informations des étudiants.
     :param action: (str, optionnel) Permet de savoir si on ajoute ou supprime un champs.
     :return: Ne retourne rien. Modifie la structure du dictionnaire.
     """
     print("\n")
-    cle = input("Entrez le nom de la clé à " + ("ajouter" if action else "supprimer") + " : ")
+    cle = input(f"Entrez le nom de la clé à {"ajouter" if action == "ajouter" else "supprimer"} : ")
 
     if action == "ajouter":
         valeur = input(f"Entrez la valeur par défaut pour '{cle}': ")
@@ -296,5 +296,7 @@ while True:
                            f"Votre choix : ").lower()
             if action == 'q':
                 continue
-            else:
-                modifier_structure_dico(liste_etudiants, "ajouter" if action == '1' else "supprimer")
+            elif action == '1':
+                modifier_structure_dico(liste_etudiants, "ajouter")
+            elif action == '2':
+                modifier_structure_dico(liste_etudiants, "supprimer")

@@ -1,0 +1,68 @@
+[
+    {
+        "id": "ETU001",
+        "nom": "LAMY",
+        "prenom": "Alexandra",
+        "date_de_naissance": "2000-5-26",
+        "email": "alex@test.be",
+        "telephone": "+32 478 12 34 56",
+        "section": "Poesie",
+        "annee": "Licence 2",
+        "cotes (sur 20)": {
+            "Litterature": 15,
+            "Grammaire": 14,
+            "Expression ecrite": 16,
+            "Histoire": 14.5
+        },
+        "moyenne": "74.38/100"
+    },
+    {
+        "id": "ETU002",
+        "nom": "DUJARDIN",
+        "prenom": "Jean",
+        "date_de_naissance": "1999-11-3",
+        "email": "jean@test.be",
+        "telephone": "+33 475 78 14 10",
+        "section": "Mathematiques",
+        "annee": "Master 1",
+        "cotes (sur 20)": {
+            "Analyse": 17,
+            "Algebre": 15,
+            "Statistiques": 16,
+            "Probabilites": 16.5
+        },
+        "moyenne": "None"
+    },
+    {
+        "id": "ETU003",
+        "nom": "TURING",
+        "prenom": "Alan",
+        "date_de_naissance": "1930-12-31",
+        "email": "alan@test.be",
+        "telephone": "+32 477 89 56 12",
+        "section": "Informatique",
+        "annee": "Licence 2",
+        "cotes (sur 20)": {
+            "Programmation": 18,
+            "Structures de donnees": 17,
+            "Algorithmique": 19,
+            "Systemes d'exploitation": 16
+        },
+        "moyenne": "87.50/100"
+    },
+    {
+        "id": "ETU004",
+        "nom": "DION",
+        "prenom": "C\u00e9line",
+        "date_de_naissance": "1985-10-17",
+        "email": "celine@test.be",
+        "telephone": "+32 478 47 47 47",
+        "section": "Chant",
+        "annee": "Licence 4",
+        "cotes (sur 20)": {
+            "a": 12.0,
+            "b": 14.0
+        },
+        "moyenne": "65.00/100"
+    }
+]
